@@ -1,0 +1,119 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace sekiz_vezir_problem
+{
+    class Program
+    {
+        static int[,] dizi1 = new int[8, 8];
+        static int[,] dizi2 = new int[8, 8];
+               
+        private static void matris_olustur()
+        {
+            for (int sutun = 0; sutun < 8; sutun++)
+            {
+                for (int satir = 0; satir < 8; satir++)
+                {
+                    dizi1[satir, sutun] = 0;
+                }
+            }
+
+            var j = 0;
+            var rnd = new Random();
+            for (int i = 0; i < 8; i++)
+            {
+
+                j = rnd.Next(0, 8);
+                dizi1[j, i] = 1;
+
+            }
+
+            for (int sutun = 0; sutun < 8; sutun++)
+            {
+                for (int satir = 0; satir < 8; satir++)
+                {
+                    Console.Write(" " + dizi1[sutun, satir] + " ");
+                }
+                Console.WriteLine("");
+            }
+
+
+        }
+
+        private static void test(int[,] array)
+        {
+            int cakismadurum = 0;
+            for (int sutun = 0; sutun < 8; sutun++)
+            {
+                for (int satir = 0; satir < 8; satir++)
+                {
+                    int i = 0;
+                    int x, y = 0;
+                    if (array[satir, sutun] == 1)
+                    {
+                        for (i = 0; i < 8; i++)
+                        {
+                            if (array[satir, i] == 1 && i != sutun)
+                            {
+                                cakismadurum++;
+                            }
+                        }
+
+                        for (i = 0; i < 8; i++)
+                        {
+                            x = satir - i - 1;
+                            y = sutun - i - 1;
+
+                            if (kontrol(x, y) == false) break;
+                            if (array[x, y] == 1) cakismadurum++;
+                        }
+                                             
+                        for (i = 0; i < 8; i++)
+                        {
+                            x = satir + i + 1;
+                            y = sutun + i + 1;
+
+                            if (kontrol(x, y) == false) break;
+                            if (array[x, y] == 1) cakismadurum++;
+                        }
+                                              
+                        for (i = 0; i < 8; i++)
+                        {
+                            x = satir + i + 1;
+                            y = sutun - i - 1;
+
+                            if (kontrol(x, y) == false) break;
+                            if (array[x, y] == 1) cakismadurum++;
+                        }
+                                              
+                        for (i = 0; i < 8; i++)
+                        {
+                            x = satir - i - 1;
+                            y = sutun + i + 1;
+
+                            if (kontrol(x, y) == false) break;
+                            if (array[x, y] == 1) cakismadurum++;
+                        }
+                    }
+                }
+            }
+            Console.WriteLine("Toplam Cakisma Sayisi : " + cakismadurum);
+        }
+
+        private static bool kontrol(int x, int y)
+        {
+          if (x > 7 || y > 7 || x < 0 || y < 0) return false;
+            return true;
+        }
+
+        static void Main(string[] args)
+        {
+            matris_olustur();
+            test(dizi1);
+            Console.ReadKey();
+        }
+    }
+}
